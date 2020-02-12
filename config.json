@@ -1,6 +1,6 @@
 {
   "name": "HassIO Discord Bot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "slug": "hass_discord_bot",
   "description": "Discord bot for HomeAssistant",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
