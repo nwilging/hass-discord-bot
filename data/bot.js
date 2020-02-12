@@ -54,9 +54,35 @@ function handleCommand(msg, args) {
     }
 }
 
+function handleWebsocketEvent(data) {
+    let message = data.message;
+    let desiredChannel = data.channel;
+
+    if (!message || !desiredChannel) {
+        console.log('Missing data: message, desired channel.');
+        return;
+    }
+
+    let channels = bot.channels;
+    let sent = false;
+
+    channels.forEach((channel) => {
+        if (channel.type === 'text' && channel.name === desiredChannel) {
+            channel.send(message);
+            sent = true;
+            return;
+        }
+    });
+
+    if (!sent) {
+        console.log('There was an error sending the message for event.');
+    }
+}
+
 class Bot {
-    constructor(config) {
+    constructor(config, websocketClient) {
         this.config = config;
+        this.websocketClient = websocketClient;
     }
 
     start() {
@@ -68,6 +94,8 @@ class Bot {
         });
 
         bot.login(token);
+
+        this.websocketClient.on('discord_bot.message', handleWebsocketEvent);
 
         bot.on('ready', onReady);
         bot.on('message', onMessage);

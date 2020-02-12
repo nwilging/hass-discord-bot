@@ -6,8 +6,8 @@ your Home Assistant entities and report states.
 **What can it do?** The bot is equipped with the following features:
 * [x] Report entity state
 * [ ] Control entities (later version)
-* [ ] Report events (later version)
-* [ ] Hook into automations (later version)
+* [x] Report events
+* [x] Hook into automations
 
 ### Discord Setup
 
@@ -107,4 +107,32 @@ and the above example, a command to the bot may look like:
 This will be interpreted as:
 ```
 !bot state sensor.front_door_sensor
+```
+
+## Home Assistant Events
+
+The bot opens a websocket connection to Home Assistant and subscribes to the following events:
+* `discord_bot.message`
+
+You may hook into automations using these events. In the `Actions` section of your automation,
+select `Fire event` for `Action type`, add the desired event name to `Event` input, and the respective
+configuration for the event to `Service data`.
+
+When an automation is run, Home Assistant will fire the event you've specified in the actions section
+of the automation. This event will be picked up by the bot's websocket client and processed accordingly.
+
+#### `discord_bot.message`
+Syntax:
+```json
+{
+  "message": "<desired message to be sent>",
+  "channel": "<name of channel to send message to, without #>"
+}
+```
+Example:
+```json
+{
+    "message": "The front door is open.",
+    "channel": "general"
+}
 ```
