@@ -1,0 +1,26 @@
+{
+  "name": "HassIO Discord Bot",
+  "version": "0.2.0",
+  "slug": "hass_discord_bot",
+  "description": "Discord bot for HomeAssistant",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": {
+    "discord_token": "",
+    "named_entities": []
+  },
+  "schema": {
+    "discord_token": "str",
+    "named_entities": [
+      {
+        "alias": "str",
+        "name": "str",
+        "entity": "str"
+      }
+    ]
+  },
+  "ports": {
+  },
+  "homeassistant_api": true
+}
