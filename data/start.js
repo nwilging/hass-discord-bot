@@ -13,9 +13,9 @@ async function loadNamedEntities() {
     console.log('Loaded ' + Object.keys(global.NAMED_ENTITIES).length + ' named entities.');
 }
 
-async function startDiscordBot() {
+async function startDiscordBot(websocketClient) {
     const DiscordBot = require('./bot');
-    let bot = new DiscordBot(config);
+    let bot = new DiscordBot(config, websocketClient);
     await bot.start();
 }
 
@@ -25,8 +25,16 @@ async function startHttpService() {
     server.start();
 }
 
+async function startWebSocketService() {
+    const WebSocketClient = require('./websocket');
+    let client = new WebSocketClient();
+    return await client.start();
+}
+
+
 (async () => {
     await loadNamedEntities();
     await startHttpService();
-    await startDiscordBot();
+    let wsClient = await startWebSocketService();
+    await startDiscordBot(wsClient);
 })();
