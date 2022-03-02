@@ -10,12 +10,10 @@ RUN apk add --update \
 
 RUN npm install -g pm2
 
-COPY ./start.sh /start.sh
-RUN chmod a+x /start.sh
-
 ADD ./data /bot
 WORKDIR /bot
 
 RUN npm install
 
-CMD ["/start.sh"]
+ENTRYPOINT ["node"]
+CMD ["start.js"]
